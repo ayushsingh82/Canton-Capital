@@ -12,14 +12,8 @@ export function buildAnalytics(
     proposals.length > 0 ? passed.length / proposals.length : 0;
 
   let totalVotes = 0;
-  let weightedAccurate = 0;
   for (const p of proposals) {
-    const v = p.yesVotes + p.noVotes;
-    totalVotes += v;
-    if (p.executed || p.yesVotes !== p.noVotes) {
-      const majorityCorrect = p.yesVotes > p.noVotes;
-      weightedAccurate += v * (majorityCorrect ? 1 : 0.25);
-    }
+    totalVotes += p.yesVotes + p.noVotes;
   }
   const participationRate =
     proposals.length > 0

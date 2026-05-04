@@ -1,0 +1,50 @@
+-- | Canton Capital — minimal Fund / Proposal / Treasury (hackathon scope).
+module CantonCapital where
+
+template Fund
+  with
+    manager : Party
+    investors : [Party]
+    totalCapital : Decimal
+  where
+    signatory manager
+    observer investors
+
+    choice AddInvestor : ContractId Fund
+      with newInvestor : Party
+      controller manager
+      do
+        create this with investors = newInvestor :: investors
+
+template Proposal
+  with
+    fundManager : Party
+    proposer : Party
+    description : Text
+    amount : Decimal
+    yesVotes : Int
+    noVotes : Int
+    executed : Bool
+  where
+    signatory proposer
+    observer fundManager
+
+    choice VoteYes : ContractId Proposal
+      controller proposer
+      do create this with yesVotes = yesVotes + 1
+
+    choice VoteNo : ContractId Proposal
+      controller proposer
+      do create this with noVotes = noVotes + 1
+
+template Treasury
+  with
+    owner : Party
+    balance : Decimal
+  where
+    signatory owner
+
+    choice Deposit : ContractId Treasury
+      with amount : Decimal
+      controller owner
+      do create this with balance = balance + amount

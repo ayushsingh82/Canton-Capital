@@ -30,4 +30,5 @@ export type AnalyticsPayload = {
   activityByDay: { day: string; count: number }[];
   bestVoters: { party: string; accurateVotes: number }[];
   fundActivity: { fundId: string; label: string; score: number }[];
+  ledgerConnected?: boolean;
 };
