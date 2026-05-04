@@ -1,13 +1,20 @@
+"use client";
+
 import { CcBox } from "./CcBox";
+import { TrendSparkline } from "./AnalyticsCharts";
 
 export function StatsCard({
   title,
   value,
   hint,
+  trend,
+  trendColor,
 }: {
   title: string;
   value: string;
   hint?: string;
+  trend?: number[];
+  trendColor?: string;
 }) {
   return (
     <CcBox>
@@ -19,6 +26,11 @@ export function StatsCard({
       </p>
       {hint ? (
         <p className="mt-1 text-xs text-neutral-500">{hint}</p>
+      ) : null}
+      {trend && trend.length > 0 ? (
+        <div className="mt-2">
+          <TrendSparkline data={trend} color={trendColor} height={32} />
+        </div>
       ) : null}
     </CcBox>
   );

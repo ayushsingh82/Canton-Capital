@@ -31,4 +31,23 @@ export type AnalyticsPayload = {
   bestVoters: { party: string; accurateVotes: number }[];
   fundActivity: { fundId: string; label: string; score: number }[];
   ledgerConnected?: boolean;
+  // Enhanced chart fields
+  capitalDistribution: { name: string; value: number; color: string }[];
+  voteBreakdown: { name: string; yes: number; no: number; total: number }[];
+  trendData: {
+    funds: number[];
+    capital: number[];
+    proposals: number[];
+    participation: number[];
+  };
+  fundScores: {
+    fund: string;
+    capital: number;
+    proposals: number;
+    investors: number;
+    activity: number;
+    governance: number;
+  }[];
+  monthlyCapitalFlow: { month: string; inflow: number; outflow: number; net: number }[];
+  executionTimeline: { label: string; executed: number; pending: number }[];
 };
