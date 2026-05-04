@@ -35,10 +35,13 @@ Copy `.env.example` to `.env.local` and set as needed:
 
 | Variable | Purpose |
 |----------|---------|
-| `CANTON_URL` | Base URL of the Canton JSON API (e.g. `https://…`). Also accepts the same value as `NEXT_PUBLIC_CANTON_JSON_API_URL` in `lib/canton-capital/canton.ts`. |
-| `CANTON_TOKEN` | Bearer token for ledger calls. `JSON_API_TOKEN` is an alias. |
+| `NEXT_PUBLIC_CANTON_JSON_API_URL` or `CANTON_URL` | Base URL of the **Canton JSON API** (port **7575** with `daml start` — same as **Slinky**). No `/v1` suffix. |
+| `NEXT_PUBLIC_DAML_PACKAGE_ID` | From `daml build` — required for live **v1/query** of `CantonCapital:Fund` and `…:Proposal` (see `lib/canton-capital/config.ts`). |
+| `CANTON_TOKEN` | Optional bearer. If unset but a URL is set, the server uses a **sandbox admin JWT** (unsigned), like Slinky local dev. `JSON_API_TOKEN` is an alias. |
 
-If these are unset, all write/read paths still work against the **demo store** in the same Node process (data resets on cold start in serverless; in `next dev` it persists for the life of the dev server).
+**Ledger path:** analytics uses **POST `/v1/query`** (not v2), aligned with `slinky/src/lib/canton.ts`. If the API is unset or unreachable, the app uses the in-memory **demo store** only.
+
+See repo root **`docs/CANTON_DAML_AND_STACK.md`** for Daml + folder overview.
 
 ## Project layout
 
@@ -55,7 +58,7 @@ app/
   api/                     # Route handlers (funds, fund, proposal, vote, execute, analytics)
 components/canton-capital/ # CcBox, StatsCard, MiniCharts
 components/polkabasket-style/ # PolkaNavbar, LandingPolka, PixelBlast (copied from polkabasket)
-lib/canton-capital/        # types, store, mock seed, analytics, optional fetchContracts
+lib/canton-capital/        # types, store, analytics, config, ledger-map, v1 JSON API (canton.ts)
 lib/polka-ui.ts            # Shared Tailwind class strings (PolkaBasket-aligned)
 daml/
   CantonCapital.daml       # Minimal Fund, Proposal, Treasury templates
