@@ -4,6 +4,14 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CcBox } from "@/components/canton-capital/CcBox";
 import type { FundRow } from "@/lib/canton-capital/types";
+import {
+  polkaBtnPrimary,
+  polkaContainerSm,
+  polkaH1,
+  polkaInput,
+  polkaLabel,
+  polkaPage,
+} from "@/lib/polka-ui";
 
 export default function CreateProposalPage() {
   const router = useRouter();
@@ -44,61 +52,63 @@ export default function CreateProposalPage() {
   }
 
   return (
-    <div className="mx-auto max-w-lg px-4 py-12">
-      <h1 className="text-2xl font-semibold cc-gradient">Create proposal</h1>
-      <p className="mt-1 text-sm text-white/45">POST /api/proposal/create</p>
+    <div className={polkaPage}>
+      <div className={polkaContainerSm}>
+        <h1 className={polkaH1}>Create proposal</h1>
+        <p className="mt-1 text-sm text-neutral-400">POST /api/proposal/create</p>
 
-      <CcBox strong className="mt-8">
-        <form onSubmit={onSubmit} className="space-y-5">
-          <div>
-            <label className="cc-label" htmlFor="fundId">
-              Fund
-            </label>
-            <select
-              id="fundId"
-              className="cc-input"
-              value={fundId}
-              onChange={(e) => setFundId(e.target.value)}
-            >
-              {funds.map((f) => (
-                <option key={f.id} value={f.id}>
-                  {f.id} — ${f.totalCapital.toLocaleString()}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="cc-label" htmlFor="desc">
-              Description
-            </label>
-            <textarea
-              id="desc"
-              className="cc-input min-h-[100px]"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label className="cc-label" htmlFor="amount">
-              Amount (USD)
-            </label>
-            <input
-              id="amount"
-              type="number"
-              min={0}
-              className="cc-input"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              required
-            />
-          </div>
-          {msg ? <p className="text-sm text-red-400/90">{msg}</p> : null}
-          <button type="submit" className="cc-btn cc-btn--primary w-full">
-            Submit proposal
-          </button>
-        </form>
-      </CcBox>
+        <CcBox strong className="mt-8">
+          <form onSubmit={onSubmit} className="space-y-5">
+            <div>
+              <label className={polkaLabel} htmlFor="fundId">
+                Fund
+              </label>
+              <select
+                id="fundId"
+                className={polkaInput}
+                value={fundId}
+                onChange={(e) => setFundId(e.target.value)}
+              >
+                {funds.map((f) => (
+                  <option key={f.id} value={f.id}>
+                    {f.id} — ${f.totalCapital.toLocaleString()}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className={polkaLabel} htmlFor="desc">
+                Description
+              </label>
+              <textarea
+                id="desc"
+                className={`${polkaInput} min-h-[100px]`}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <label className={polkaLabel} htmlFor="amount">
+                Amount (USD)
+              </label>
+              <input
+                id="amount"
+                type="number"
+                min={0}
+                className={polkaInput}
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                required
+              />
+            </div>
+            {msg ? <p className="text-sm text-red-400/90">{msg}</p> : null}
+            <button type="submit" className={`${polkaBtnPrimary} w-full`}>
+              Submit proposal
+            </button>
+          </form>
+        </CcBox>
+      </div>
     </div>
   );
 }

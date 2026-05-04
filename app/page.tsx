@@ -1,5 +1,5 @@
-import { Landing } from "@/components/canton-capital/Landing";
+import { LandingPolka } from "@/components/polkabasket-style/LandingPolka";
 
 export default function Home() {
-  return <Landing />;
+  return <LandingPolka />;
 }

@@ -41,21 +41,22 @@ export default function DashboardPage() {
 
   if (err || !data) {
     return (
-      <div className="mx-auto max-w-6xl px-4 py-12">
-        <p className="text-sm text-white/50">
-          {err ?? "Loading dashboard…"}
-        </p>
+      <div className="min-h-screen overflow-hidden bg-neutral-950 pt-20">
+        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 md:px-8">
+          <p className="text-sm text-neutral-400">{err ?? "Loading dashboard…"}</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="mx-auto max-w-6xl space-y-8 px-4 py-10">
+    <div className="min-h-screen overflow-hidden bg-neutral-950 pt-20">
+      <div className="mx-auto max-w-6xl space-y-8 px-4 py-10 sm:px-6 md:px-8">
       <div>
-        <h1 className="text-2xl font-semibold">
-          <span className="cc-gradient">Operations dashboard</span>
+        <h1 className="bg-gradient-to-br from-white via-white to-neutral-500 bg-clip-text text-2xl font-semibold text-transparent">
+          Operations dashboard
         </h1>
-        <p className="mt-1 text-sm text-white/45">
+        <p className="mt-1 text-sm text-neutral-400">
           Fed by <code className="text-white/60">GET /api/analytics</code>
           {ledgerConnected ? " • Ledger contracts detected" : " • Demo store"}
         </p>
@@ -111,6 +112,7 @@ export default function DashboardPage() {
             <ActivityBars data={data.activityByDay} />
           </div>
         </CcBox>
+      </div>
       </div>
     </div>
   );

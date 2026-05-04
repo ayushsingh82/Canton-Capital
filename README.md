@@ -1,6 +1,6 @@
 # Canton Capital (Canton Analytics)
 
-Next.js app for a **hackathon-style demo**: private funds, proposal flow, voting, execution, and an **analytics dashboard**—with a **black / silver** UI and App Router **API routes** you can point at a real **Canton JSON API** when you are ready.
+Next.js app for a **hackathon-style demo**: private funds, proposal flow, voting, execution, and an **analytics dashboard**. The **UI matches the PolkaBasket app** in this repo (floating nav, silver PixelBlast hero, gradient headlines, `rounded-2xl` glass cards)—see `polkabasket/src/pages/HomePage.tsx`. App Router **API routes** can point at a real **Canton JSON API** when you are ready.
 
 ## What you get
 
@@ -53,9 +53,10 @@ app/
   proposal/[id]/page.tsx
   analytics/page.tsx
   api/                     # Route handlers (funds, fund, proposal, vote, execute, analytics)
-components/canton-capital/ # Navbar, cards, landing, charts
+components/canton-capital/ # CcBox, StatsCard, MiniCharts
+components/polkabasket-style/ # PolkaNavbar, LandingPolka, PixelBlast (copied from polkabasket)
 lib/canton-capital/        # types, store, mock seed, analytics, optional fetchContracts
-styles/canton-capital.css   # Black / silver / square “cc-*” theme
+lib/polka-ui.ts            # Shared Tailwind class strings (PolkaBasket-aligned)
 daml/
   CantonCapital.daml       # Minimal Fund, Proposal, Treasury templates
 daml.yaml                  # Daml package `canton-capital`

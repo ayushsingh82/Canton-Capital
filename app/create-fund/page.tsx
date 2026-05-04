@@ -3,6 +3,14 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CcBox } from "@/components/canton-capital/CcBox";
+import {
+  polkaBtnPrimary,
+  polkaContainerSm,
+  polkaH1,
+  polkaInput,
+  polkaLabel,
+  polkaPage,
+} from "@/lib/polka-ui";
 
 export default function CreateFundPage() {
   const router = useRouter();
@@ -30,45 +38,47 @@ export default function CreateFundPage() {
   }
 
   return (
-    <div className="mx-auto max-w-lg px-4 py-12">
-      <h1 className="text-2xl font-semibold cc-gradient">Create fund</h1>
-      <p className="mt-1 text-sm text-white/45">POST /api/funds</p>
+    <div className={polkaPage}>
+      <div className={polkaContainerSm}>
+        <h1 className={polkaH1}>Create fund</h1>
+        <p className="mt-1 text-sm text-neutral-400">POST /api/funds</p>
 
-      <CcBox strong className="mt-8">
-        <form onSubmit={onSubmit} className="space-y-5">
-          <div>
-            <label className="cc-label" htmlFor="manager">
-              Manager
-            </label>
-            <input
-              id="manager"
-              className="cc-input"
-              value={manager}
-              onChange={(e) => setManager(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label className="cc-label" htmlFor="cap">
-              Initial capital (USD)
-            </label>
-            <input
-              id="cap"
-              type="number"
-              min={0}
-              step="1000"
-              className="cc-input"
-              value={initialCapital}
-              onChange={(e) => setInitialCapital(e.target.value)}
-              required
-            />
-          </div>
-          {msg ? <p className="text-sm text-red-400/90">{msg}</p> : null}
-          <button type="submit" className="cc-btn cc-btn--primary w-full">
-            Create
-          </button>
-        </form>
-      </CcBox>
+        <CcBox strong className="mt-8">
+          <form onSubmit={onSubmit} className="space-y-5">
+            <div>
+              <label className={polkaLabel} htmlFor="manager">
+                Manager
+              </label>
+              <input
+                id="manager"
+                className={polkaInput}
+                value={manager}
+                onChange={(e) => setManager(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <label className={polkaLabel} htmlFor="cap">
+                Initial capital (USD)
+              </label>
+              <input
+                id="cap"
+                type="number"
+                min={0}
+                step="1000"
+                className={polkaInput}
+                value={initialCapital}
+                onChange={(e) => setInitialCapital(e.target.value)}
+                required
+              />
+            </div>
+            {msg ? <p className="text-sm text-red-400/90">{msg}</p> : null}
+            <button type="submit" className={`${polkaBtnPrimary} w-full`}>
+              Create
+            </button>
+          </form>
+        </CcBox>
+      </div>
     </div>
   );
 }

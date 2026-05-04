@@ -11,14 +11,14 @@ export function StatsCard({
 }) {
   return (
     <CcBox>
-      <p className="text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-white/50">
+      <p className="text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-neutral-500">
         {title}
       </p>
-      <p className="cc-gradient mt-2 text-2xl font-semibold tabular-nums">
+      <p className="mt-2 bg-gradient-to-br from-white to-neutral-500 bg-clip-text text-2xl font-semibold tabular-nums text-transparent">
         {value}
       </p>
       {hint ? (
-        <p className="mt-1 text-xs text-white/40">{hint}</p>
+        <p className="mt-1 text-xs text-neutral-500">{hint}</p>
       ) : null}
     </CcBox>
   );

@@ -9,10 +9,11 @@ export function CapitalOverTimeChart({
 }) {
   const max = Math.max(...data.map((d) => d.v), 1);
   return (
-    <div className="cc-bar">
+    <div className="flex h-[120px] items-end gap-1">
       {data.map((d, i) => (
         <i
           key={d.t + i}
+          className="min-w-[4px] flex-1 rounded-none bg-gradient-to-t from-white/20 to-white/50"
           style={{
             height: `${Math.max(8, (d.v / max) * 100)}%`,
             opacity: 0.35 + (i / data.length) * 0.45,

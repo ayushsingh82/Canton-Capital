@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { CapitalNavbar } from "@/components/canton-capital/CapitalNavbar";
+import { PolkaNavbar } from "@/components/polkabasket-style/PolkaNavbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,10 +29,10 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col">
-        <div className="cc-root flex min-h-full flex-1 flex-col">
-          <CapitalNavbar />
-          <main className="flex-1">{children}</main>
+      <body className="min-h-screen overflow-x-hidden font-sans antialiased">
+        <div className="min-h-screen bg-neutral-950">
+          <PolkaNavbar />
+          <main className="min-h-screen">{children}</main>
         </div>
       </body>
     </html>

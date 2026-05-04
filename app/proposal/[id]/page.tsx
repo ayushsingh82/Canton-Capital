@@ -5,6 +5,14 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { CcBox } from "@/components/canton-capital/CcBox";
 import type { FundRow, ProposalRow } from "@/lib/canton-capital/types";
+import {
+  polkaBtnGhost,
+  polkaBtnPrimary,
+  polkaContainerMd,
+  polkaH1,
+  polkaLink,
+  polkaPage,
+} from "@/lib/polka-ui";
 
 export default function ProposalDetailPage() {
   const params = useParams();
@@ -51,74 +59,93 @@ export default function ProposalDetailPage() {
 
   if (!proposal) {
     return (
-      <div className="mx-auto max-w-3xl px-4 py-12">
-        <p className="text-sm text-white/50">Loading…</p>
+      <div className={polkaPage}>
+        <div className={`${polkaContainerMd} py-12`}>
+          <p className="text-sm text-neutral-400">Loading…</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6 px-4 py-10">
-      <Link href={fund ? `/funds/${fund.id}` : "/funds"} className="cc-link text-sm">
-        ← Back to fund
-      </Link>
+    <div className={polkaPage}>
+      <div className={polkaContainerMd}>
+        <Link
+          href={fund ? `/funds/${fund.id}` : "/funds"}
+          className={polkaLink}
+        >
+          ← Back to fund
+        </Link>
 
-      <div>
-        <h1 className="text-2xl font-semibold cc-gradient">Proposal</h1>
-        <p className="font-mono text-xs text-white/40">{proposal.id}</p>
+        <div>
+          <h1 className={polkaH1}>Proposal</h1>
+          <p className="font-mono text-xs text-neutral-500">{proposal.id}</p>
+        </div>
+
+        <CcBox strong>
+          <p className="text-sm leading-relaxed text-neutral-200">
+            {proposal.description}
+          </p>
+          <div className="mt-6 grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <p className="text-neutral-500">Amount</p>
+              <p className="bg-gradient-to-br from-white to-neutral-500 bg-clip-text text-xl tabular-nums text-transparent">
+                ${proposal.amount.toLocaleString()}
+              </p>
+            </div>
+            <div>
+              <p className="text-neutral-500">Status</p>
+              <p className="text-neutral-100">
+                {proposal.executed ? "Executed" : "Open"}
+              </p>
+            </div>
+          </div>
+        </CcBox>
+
+        <CcBox>
+          <h2 className="text-xs font-semibold uppercase tracking-[0.12em] text-neutral-500">
+            Votes
+          </h2>
+          <div className="mt-4 flex gap-8 text-lg tabular-nums">
+            <div>
+              <span className="text-neutral-500">YES</span>{" "}
+              <span className="text-white">{proposal.yesVotes}</span>
+            </div>
+            <div>
+              <span className="text-neutral-500">NO</span>{" "}
+              <span className="text-white">{proposal.noVotes}</span>
+            </div>
+          </div>
+        </CcBox>
+
+        {note ? <p className="text-sm text-amber-400/90">{note}</p> : null}
+
+        {!proposal.executed ? (
+          <div className="flex flex-wrap gap-3">
+            <button
+              type="button"
+              className={polkaBtnPrimary}
+              onClick={() => vote("yes")}
+            >
+              Vote YES
+            </button>
+            <button
+              type="button"
+              className={polkaBtnGhost}
+              onClick={() => vote("no")}
+            >
+              Vote NO
+            </button>
+            <button
+              type="button"
+              className={polkaBtnGhost}
+              onClick={() => execute()}
+            >
+              Execute (if passed)
+            </button>
+          </div>
+        ) : null}
       </div>
-
-      <CcBox strong>
-        <p className="text-sm leading-relaxed text-white/80">
-          {proposal.description}
-        </p>
-        <div className="mt-6 grid grid-cols-2 gap-4 text-sm">
-          <div>
-            <p className="text-white/40">Amount</p>
-            <p className="cc-gradient text-xl tabular-nums">
-              ${proposal.amount.toLocaleString()}
-            </p>
-          </div>
-          <div>
-            <p className="text-white/40">Status</p>
-            <p className="text-white/85">
-              {proposal.executed ? "Executed" : "Open"}
-            </p>
-          </div>
-        </div>
-      </CcBox>
-
-      <CcBox>
-        <h2 className="text-xs font-semibold uppercase tracking-[0.12em] text-white/50">
-          Votes
-        </h2>
-        <div className="mt-4 flex gap-8 text-lg tabular-nums">
-          <div>
-            <span className="text-white/40">YES</span>{" "}
-            <span className="text-white/90">{proposal.yesVotes}</span>
-          </div>
-          <div>
-            <span className="text-white/40">NO</span>{" "}
-            <span className="text-white/90">{proposal.noVotes}</span>
-          </div>
-        </div>
-      </CcBox>
-
-      {note ? <p className="text-sm text-amber-400/90">{note}</p> : null}
-
-      {!proposal.executed ? (
-        <div className="flex flex-wrap gap-3">
-          <button type="button" className="cc-btn cc-btn--primary" onClick={() => vote("yes")}>
-            Vote YES
-          </button>
-          <button type="button" className="cc-btn" onClick={() => vote("no")}>
-            Vote NO
-          </button>
-          <button type="button" className="cc-btn" onClick={() => execute()}>
-            Execute (if passed)
-          </button>
-        </div>
-      ) : null}
     </div>
   );
 }

@@ -9,11 +9,11 @@ export function CcBox({
   className?: string;
   strong?: boolean;
 }) {
+  const base =
+    "rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 backdrop-blur-xl transition duration-300";
+  const hover =
+    strong ? " hover:border-white/[0.1] hover:bg-white/[0.05]" : "";
   return (
-    <div
-      className={`${strong ? "cc-box-strong" : "cc-box"} p-5 ${className}`.trim()}
-    >
-      {children}
-    </div>
+    <div className={`${base}${hover} ${className}`.trim()}>{children}</div>
   );
 }
