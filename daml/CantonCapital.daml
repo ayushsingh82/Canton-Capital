@@ -1,25 +1,46 @@
--- | Canton Capital — minimal Fund / Proposal / Treasury (hackathon scope).
+-- | Canton Capital — Fund / Proposal templates aligned with the JSON API
+-- consumed by `lib/canton-capital/canton.ts` and the in-memory demo store
+-- in `lib/canton-capital/store.ts`. Hackathon scope: small, but the choice
+-- semantics match the REST behavior so swapping the store for the ledger is
+-- a drop-in.
 module CantonCapital where
+
+import DA.List (elem)
 
 template Fund
   with
     manager : Party
     investors : [Party]
     totalCapital : Decimal
+    treasuryBalance : Decimal
   where
     signatory manager
     observer investors
 
+    ensure totalCapital >= 0.0 && treasuryBalance >= 0.0
+
+    -- The manager onboards a new investor.
     choice AddInvestor : ContractId Fund
       with newInvestor : Party
       controller manager
+      do create this with investors = newInvestor :: investors
+
+    -- The manager debits the treasury when a proposal is executed.
+    -- Mirrors `executeProposal` in lib/canton-capital/store.ts which subtracts
+    -- proposal.amount from the fund's treasury balance.
+    choice Disburse : ContractId Fund
+      with amount : Decimal
+      controller manager
       do
-        create this with investors = newInvestor :: investors
+        assertMsg "Disburse amount must be positive" (amount > 0.0)
+        assertMsg "Insufficient treasury" (treasuryBalance >= amount)
+        create this with treasuryBalance = treasuryBalance - amount
 
 template Proposal
   with
     fundManager : Party
     proposer : Party
+    voters : [Party]
     description : Text
     amount : Decimal
     yesVotes : Int
@@ -27,24 +48,36 @@ template Proposal
     executed : Bool
   where
     signatory proposer
-    observer fundManager
+    observer fundManager :: voters
 
-    choice VoteYes : ContractId Proposal
-      controller proposer
-      do create this with yesVotes = yesVotes + 1
+    ensure amount >= 0.0 && yesVotes >= 0 && noVotes >= 0
 
-    choice VoteNo : ContractId Proposal
-      controller proposer
-      do create this with noVotes = noVotes + 1
+    -- Any party in `voters` can cast YES. The choice is controlled by the
+    -- casting voter, so they must authorize their own vote (matches /api/vote
+    -- semantics where the caller picks the choice).
+    choice CastYes : ContractId Proposal
+      with voter : Party
+      controller voter
+      do
+        assertMsg "Already executed" (not executed)
+        assertMsg "Not a registered voter" (elem voter voters)
+        create this with yesVotes = yesVotes + 1
 
-template Treasury
-  with
-    owner : Party
-    balance : Decimal
-  where
-    signatory owner
+    choice CastNo : ContractId Proposal
+      with voter : Party
+      controller voter
+      do
+        assertMsg "Already executed" (not executed)
+        assertMsg "Not a registered voter" (elem voter voters)
+        create this with noVotes = noVotes + 1
 
-    choice Deposit : ContractId Treasury
-      with amount : Decimal
-      controller owner
-      do create this with balance = balance + amount
+    -- The fund manager executes a passing proposal. The execution rule
+    -- (`yesVotes > noVotes`) is identical to `executeProposal` in
+    -- lib/canton-capital/store.ts so on-ledger and demo-store outcomes agree.
+    choice ExecuteProposal : ContractId Proposal
+      controller fundManager
+      do
+        assertMsg "Already executed" (not executed)
+        assertMsg "Yes votes must strictly exceed no votes"
+          (yesVotes > noVotes)
+        create this with executed = True

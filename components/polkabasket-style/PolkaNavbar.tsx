@@ -49,10 +49,13 @@ export function PolkaNavbar() {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
-            <span className="hidden items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2 text-sm font-medium text-white sm:inline-flex">
+            <Link
+              href="/dashboard"
+              className="hidden items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10 sm:inline-flex"
+            >
               <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]" />
-              Demo mode
-            </span>
+              Live analytics
+            </Link>
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

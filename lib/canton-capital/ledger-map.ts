@@ -5,6 +5,8 @@ export type LedgerFundPayload = {
   manager: string;
   investors: string[];
   totalCapital: string | number;
+  /** Added in the post-hackathon Daml. Optional so older deployments still parse. */
+  treasuryBalance?: string | number;
 };
 
 export type LedgerProposalPayload = {
@@ -15,6 +17,8 @@ export type LedgerProposalPayload = {
   yesVotes: number;
   noVotes: number;
   executed: boolean;
+  /** Optional in the legacy template; required in the updated module. */
+  voters?: string[];
 };
 
 export type ContractResult<T> = {
@@ -33,13 +37,16 @@ export function contractToFundRow(c: ContractResult<LedgerFundPayload>): FundRow
   const p = c.payload;
   const tc = num(p.totalCapital);
   const inv = p.investors ?? [];
+  // If the ledger payload carries a treasuryBalance (post-update Daml), prefer
+  // it. Otherwise fall back to totalCapital so legacy contracts still render.
+  const tb = p.treasuryBalance !== undefined ? num(p.treasuryBalance) : tc;
   return {
     id: c.contractId,
     manager: p.manager,
     totalCapital: tc,
     investors: inv,
     investorsCount: inv.length,
-    treasuryBalance: tc,
+    treasuryBalance: tb,
   };
 }
 

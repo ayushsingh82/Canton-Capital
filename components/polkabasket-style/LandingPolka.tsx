@@ -10,7 +10,7 @@ const SILVER = "#A3A3A3";
 export function LandingPolka() {
   return (
     <div className="min-h-screen bg-neutral-950">
-      {/* Hero — matches PolkaBasket HomePage */}
+      {/* Hero */}
       <section
         className={`relative min-h-[92vh] w-full overflow-hidden sm:min-h-[95vh] ${SECTION_PADDING}`}
         style={{ paddingTop: "calc(5rem + 2vh)" }}
@@ -61,29 +61,32 @@ export function LandingPolka() {
           <div className="landing-section landing-stagger-1 mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 backdrop-blur-sm">
             <span className="flex h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]" />
             <span className="text-xs font-medium uppercase tracking-widest text-neutral-400">
-              Canton Network • Funds &amp; governance
+              Canton Network • Funds, governance &amp; analytics
             </span>
           </div>
 
           <h1 className="landing-section landing-stagger-2 max-w-4xl text-5xl font-bold tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl">
             <span className="bg-gradient-to-br from-white via-white to-neutral-500 bg-clip-text text-transparent">
-              Decisions in
+              Run a fund.
             </span>
             <br />
             <span className="bg-gradient-to-br from-white via-white to-neutral-500 bg-clip-text text-transparent">
-              one ledger
+              Govern it on-ledger.
             </span>
           </h1>
 
           <p className="landing-section landing-stagger-3 mt-8 max-w-3xl text-lg leading-relaxed text-neutral-400 sm:text-xl">
-            Canton Capital turns fund creation, proposals, and votes into live analytics—so
-            allocators and judges see{" "}
-            <span className="text-white">execution plus insight</span> on the dashboard.
+            Canton Capital is a private fund + DAO-style governance app on the
+            Canton Network. Allocators create funds, propose disbursements,
+            vote, and execute — every action lands in the{" "}
+            <span className="text-white">analytics dashboard</span> in real time.
           </p>
 
           <p className="landing-section landing-stagger-3 mt-4 max-w-2xl text-sm leading-relaxed text-neutral-500 sm:text-base">
-            Create a fund, route proposals, vote, execute—then open analytics backed by the same
-            API shape you will wire to the Canton JSON API.
+            Backed by Daml templates (<code className="font-mono text-neutral-300">Fund</code>,{" "}
+            <code className="font-mono text-neutral-300">Proposal</code>) and the
+            Canton JSON API. Use the bundled demo store, or point it at a
+            participant + Splice testnet wallet.
           </p>
 
           <div className="landing-section landing-stagger-4 mt-12 flex flex-col items-center gap-6 sm:flex-row">
@@ -94,17 +97,23 @@ export function LandingPolka() {
               <span className="relative z-10">Open dashboard</span>
               <div className="absolute inset-0 z-0 bg-gradient-to-r from-white via-neutral-100 to-white opacity-0 transition-opacity group-hover:opacity-100" />
             </Link>
-            <a
-              href="#how"
+            <Link
+              href="/create-fund"
               className="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-10 py-4 text-sm font-bold text-white transition hover:bg-white/10"
             >
-              How it works
+              Create a fund
+            </Link>
+            <a
+              href="#how"
+              className="text-sm font-medium text-neutral-400 underline-offset-4 transition hover:text-white hover:underline"
+            >
+              How it works ↓
             </a>
           </div>
         </div>
       </section>
 
-      {/* Stats */}
+      {/* What we are building */}
       <section className={`relative overflow-hidden bg-black ${SECTION_PADDING}`}>
         <div
           className="absolute inset-0 opacity-[0.02]"
@@ -118,10 +127,10 @@ export function LandingPolka() {
           <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 backdrop-blur-3xl sm:p-10 md:p-12">
             <div className="grid grid-cols-2 gap-8 sm:grid-cols-4 sm:gap-0">
               {[
-                { value: "Live", label: "API routes" },
-                { value: "Funds", label: "Dashboard" },
-                { value: "Vote", label: "Governance" },
-                { value: "JSON", label: "Canton-ready" },
+                { value: "Funds", label: "Private capital pools" },
+                { value: "DAO", label: "Proposals & voting" },
+                { value: "Treasury", label: "Disbursed on execute" },
+                { value: "Live", label: "Analytics dashboard" },
               ].map((stat) => (
                 <div
                   key={stat.label}
@@ -140,34 +149,42 @@ export function LandingPolka() {
         </div>
       </section>
 
-      {/* Split section */}
+      {/* Split section — what we are working on */}
       <section className={`relative overflow-hidden ${SECTION_PADDING}`}>
         <div className={`relative z-10 ${CONTENT_MAX}`}>
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             <div>
               <p className="text-sm font-bold uppercase tracking-widest text-emerald-500">
-                Ledger-backed clarity
+                What we are building
               </p>
               <h2 className="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl">
-                One surface.
-                <br />
-                Full pipeline.
+                A fund OS on Canton.
               </h2>
               <div className="mt-8 space-y-6 text-lg text-neutral-400">
                 <p>
-                  Models follow <span className="text-white">Fund</span> and{" "}
-                  <span className="text-white">Proposal</span> templates—simple Daml you can
-                  extend later while the UI stays stable.
+                  Allocators stand up a <span className="text-white">Fund</span>{" "}
+                  contract with a manager party and an opening treasury.
+                  Investors are observers; the manager keeps signing authority.
                 </p>
                 <p>
-                  The <span className="text-white">analytics layer</span> aggregates counts and
-                  outcomes so your demo ends on insight, not just buttons.
+                  Disbursements run through{" "}
+                  <span className="text-white">Proposal</span> contracts —
+                  description, amount, voter set. YES / NO is recorded
+                  on-ledger, and the manager can{" "}
+                  <span className="text-white">Execute</span> once YES strictly
+                  exceeds NO. Execution debits the treasury.
+                </p>
+                <p>
+                  The <span className="text-white">analytics layer</span> reads
+                  the same model: capital trajectory, vote breakdown, fund
+                  scoring, monthly flow, execution timeline — every chart is
+                  driven from the live Fund / Proposal data.
                 </p>
               </div>
               <div className="mt-10 flex items-center gap-4">
                 <div className="h-px flex-grow bg-white/10" />
                 <span className="text-xs font-medium uppercase tracking-widest text-neutral-500">
-                  Canton JSON API
+                  Daml + Canton JSON API
                 </span>
               </div>
             </div>
@@ -181,24 +198,42 @@ export function LandingPolka() {
                     </svg>
                   </div>
                   <span className="text-xs font-mono uppercase tracking-tighter text-neutral-500">
-                    Store + optional ledger
+                    Fund · Proposal · Treasury
                   </span>
                 </div>
                 <div className="space-y-4">
-                  <div className="h-2 w-full overflow-hidden rounded-full bg-white/5">
-                    <div className="h-full w-[80%] bg-emerald-500/50" />
+                  <div>
+                    <div className="mb-1 flex justify-between text-[10px] font-mono uppercase tracking-wider text-neutral-500">
+                      <span>Capital deployed</span>
+                      <span>80%</span>
+                    </div>
+                    <div className="h-2 w-full overflow-hidden rounded-full bg-white/5">
+                      <div className="h-full w-[80%] bg-emerald-500/50" />
+                    </div>
                   </div>
-                  <div className="h-2 w-full overflow-hidden rounded-full bg-white/5">
-                    <div className="h-full w-[65%] bg-blue-500/50" />
+                  <div>
+                    <div className="mb-1 flex justify-between text-[10px] font-mono uppercase tracking-wider text-neutral-500">
+                      <span>Vote participation</span>
+                      <span>65%</span>
+                    </div>
+                    <div className="h-2 w-full overflow-hidden rounded-full bg-white/5">
+                      <div className="h-full w-[65%] bg-blue-500/50" />
+                    </div>
                   </div>
-                  <div className="h-2 w-full overflow-hidden rounded-full bg-white/5">
-                    <div className="h-full w-[90%] bg-pink-500/50" />
+                  <div>
+                    <div className="mb-1 flex justify-between text-[10px] font-mono uppercase tracking-wider text-neutral-500">
+                      <span>Proposal pass rate</span>
+                      <span>90%</span>
+                    </div>
+                    <div className="h-2 w-full overflow-hidden rounded-full bg-white/5">
+                      <div className="h-full w-[90%] bg-pink-500/50" />
+                    </div>
                   </div>
                 </div>
                 <div className="text-center">
-                  <p className="text-sm font-medium text-white">Funds • Proposals • Votes</p>
+                  <p className="text-sm font-medium text-white">Funds · Proposals · Votes</p>
                   <p className="mt-1 font-mono text-[10px] uppercase tracking-widest text-neutral-500">
-                    Hackathon-ready flow
+                    Daml templates · live analytics
                   </p>
                 </div>
               </div>
@@ -207,7 +242,7 @@ export function LandingPolka() {
         </div>
       </section>
 
-      {/* Feature grid — Social Layer analogue */}
+      {/* Feature grid */}
       <section className={`relative overflow-hidden bg-white/[0.03] ${SECTION_PADDING}`}>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(163,163,163,0.05),transparent_50%)]" />
         <div className={`relative z-10 ${CONTENT_MAX}`}>
@@ -219,7 +254,8 @@ export function LandingPolka() {
               Funds. Proposals. Analytics.
             </h2>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-neutral-400 sm:text-lg">
-              Same interaction model as a polished DeFi app—tuned for Canton Capital routes and API handlers.
+              Every screen maps to a Daml template and a JSON-API call. No
+              hidden state.
             </p>
           </div>
 
@@ -227,19 +263,23 @@ export function LandingPolka() {
             {[
               {
                 title: "Explore funds",
-                description: "Browse capital, managers, and drill into treasury + proposals.",
+                description:
+                  "Browse capital, managers, treasury balance, and drill into proposals per fund.",
               },
               {
                 title: "Create & propose",
-                description: "Ship fund and proposal forms wired to POST endpoints you own.",
+                description:
+                  "Stand up a fund with a manager party, then file proposals against the treasury.",
               },
               {
                 title: "Vote & execute",
-                description: "Yes/no flow with execute when the tally passes—demo-friendly.",
+                description:
+                  "YES / NO tally on-ledger. Execute debits the treasury once YES leads NO.",
               },
               {
-                title: "Analytics OS",
-                description: "Dashboard and advanced page share one aggregation pipeline.",
+                title: "Analytics dashboard",
+                description:
+                  "Capital trajectory, vote distribution, execution timeline — refreshed every 4 s.",
               },
             ].map((item) => (
               <article
@@ -250,6 +290,141 @@ export function LandingPolka() {
                 <p className="mt-3 text-sm leading-relaxed text-neutral-400">{item.description}</p>
               </article>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Canton wallet + testnet */}
+      <section
+        id="canton"
+        className={`relative overflow-hidden ${SECTION_PADDING}`}
+      >
+        <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,rgba(52,211,153,0.06),transparent_60%)]" />
+        <div className={`relative z-10 ${CONTENT_MAX}`}>
+          <div className="flex flex-col items-center text-center">
+            <p className="text-sm font-medium uppercase tracking-[0.18em] text-emerald-400/80">
+              Canton integration
+            </p>
+            <h2 className="mt-4 max-w-3xl text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">
+              Wallet, participant, faucet.
+            </h2>
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-neutral-400 sm:text-lg">
+              When you flip the env vars, this app talks to a real Canton
+              participant. Here is the wallet stack we use and where to get
+              testnet Canton Coin.
+            </p>
+          </div>
+
+          <div className="mt-14 grid gap-6 lg:grid-cols-3">
+            <article className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 backdrop-blur-xl">
+              <div className="flex items-center gap-3">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-emerald-300">
+                  1
+                </span>
+                <h3 className="text-lg font-semibold text-white">Wallet SDK v1</h3>
+              </div>
+              <p className="mt-4 text-sm leading-relaxed text-neutral-400">
+                We sign and submit through the{" "}
+                <span className="text-white">Canton Wallet SDK v1</span> (
+                <code className="font-mono text-xs text-neutral-300">
+                  @canton-network/core-ledger-client
+                </code>
+                ). It exposes <code className="font-mono text-xs">prepare → sign →
+                execute</code> against your participant&apos;s ledger API.
+              </p>
+              <p className="mt-3 text-xs text-neutral-500">
+                See <code className="font-mono">WALLET_UPGRADE.md</code> for the
+                v0 → v1 migration notes.
+              </p>
+            </article>
+
+            <article className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 backdrop-blur-xl">
+              <div className="flex items-center gap-3">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-emerald-300">
+                  2
+                </span>
+                <h3 className="text-lg font-semibold text-white">Splice App Wallet</h3>
+              </div>
+              <p className="mt-4 text-sm leading-relaxed text-neutral-400">
+                For browser flows we connect the{" "}
+                <span className="text-white">Splice App Wallet</span> on the
+                Splice testnet. The wallet holds your Canton Coin (Amulet)
+                UTXOs and authorises party-side actions like{" "}
+                <code className="font-mono text-xs">CastYes</code> /{" "}
+                <code className="font-mono text-xs">ExecuteProposal</code>.
+              </p>
+              <p className="mt-3 text-xs text-neutral-500">
+                Compatible with Canton 3.4.X – 3.5.X and Splice 0.5.X – 0.6.X.
+              </p>
+            </article>
+
+            <article className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 backdrop-blur-xl">
+              <div className="flex items-center gap-3">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-emerald-300">
+                  3
+                </span>
+                <h3 className="text-lg font-semibold text-white">Testnet faucet</h3>
+              </div>
+              <p className="mt-4 text-sm leading-relaxed text-neutral-400">
+                Get testnet Canton Coin from the{" "}
+                <span className="text-white">Splice testnet faucet</span> in
+                the App Wallet, or programmatically tap the validator faucet
+                via the Wallet SDK helper:
+              </p>
+              <pre className="mt-3 overflow-x-auto rounded-lg border border-white/[0.06] bg-black/40 p-3 font-mono text-[11px] text-neutral-300">
+{`sdk.tokenStandard?.createAndSubmitTapInternal(
+  validatorOperatorParty,
+  '20000000', // amount to tap
+  { instrumentId: 'Amulet',
+    instrumentAdmin: instrumentAdminPartyId }
+)`}
+              </pre>
+            </article>
+          </div>
+
+          <div className="mt-10 grid gap-4 rounded-2xl border border-white/[0.06] bg-black/30 p-6 sm:grid-cols-2">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-emerald-400/80">
+                Where do testnet tokens come from?
+              </p>
+              <ul className="mt-3 space-y-2 text-sm text-neutral-400">
+                <li>
+                  <span className="text-white">Splice App Wallet faucet</span>{" "}
+                  — request CC after onboarding to a Sponsor Validator.
+                </li>
+                <li>
+                  <span className="text-white">Wallet SDK</span>{" "}
+                  <code className="font-mono text-xs">
+                    createAndSubmitTapInternal
+                  </code>{" "}
+                  — tap the local validator faucet from a script.
+                </li>
+                <li>
+                  <span className="text-white">SV onboarding</span> — required
+                  the first time you spin up a participant on testnet.
+                </li>
+              </ul>
+            </div>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-emerald-400/80">
+                What testnet tokens pay for
+              </p>
+              <ul className="mt-3 space-y-2 text-sm text-neutral-400">
+                <li>
+                  Traffic on the Canton Network for every Daml transaction this
+                  app submits.
+                </li>
+                <li>
+                  Hosting fees for parties and contract creation when you move
+                  off the demo store.
+                </li>
+                <li>
+                  Disbursement amounts once you wire{" "}
+                  <code className="font-mono text-xs">Disburse</code> to a real
+                  Amulet transfer.
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
@@ -266,7 +441,8 @@ export function LandingPolka() {
               From fund to insight
             </h2>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-neutral-400 sm:text-lg md:text-xl">
-              One demo path: create → propose → vote → execute → refresh analytics.
+              One demo path: create → propose → vote → execute → refresh
+              analytics.
             </p>
           </div>
 
@@ -275,7 +451,8 @@ export function LandingPolka() {
               {
                 step: "1",
                 title: "Create fund",
-                description: "POST /api/funds with manager and initial capital.",
+                description:
+                  "POST /api/funds with manager + initial capital. Spawns a Fund contract with treasuryBalance.",
                 icon: (
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -285,7 +462,8 @@ export function LandingPolka() {
               {
                 step: "2",
                 title: "Propose & vote",
-                description: "Create a proposal, tally YES/NO from the detail page.",
+                description:
+                  "Voters CastYes / CastNo. Manager calls ExecuteProposal once YES strictly leads NO.",
                 icon: (
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
@@ -295,7 +473,8 @@ export function LandingPolka() {
               {
                 step: "3",
                 title: "Analyze",
-                description: "GET /api/analytics powers charts and judge-friendly metrics.",
+                description:
+                  "GET /api/analytics powers eight charts — capital flow, fund radar, execution timeline.",
                 icon: (
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
@@ -327,7 +506,8 @@ export function LandingPolka() {
             <div className="text-center md:text-left">
               <p className="mb-2 text-lg font-bold text-white">Canton Capital</p>
               <p className="mx-auto max-w-xs text-sm text-neutral-400 md:mx-0">
-                Funds, governance, and analytics on Canton—UI aligned with PolkaBasket patterns.
+                Funds, governance and analytics on Canton — Daml templates +
+                Canton Wallet SDK.
               </p>
             </div>
             <div className="flex justify-center gap-6 md:justify-end">
@@ -340,11 +520,14 @@ export function LandingPolka() {
               <Link href="/analytics" className="text-sm text-neutral-400 transition hover:text-white">
                 Analytics
               </Link>
+              <a href="#canton" className="text-sm text-neutral-400 transition hover:text-white">
+                Canton
+              </a>
             </div>
           </div>
           <div className="mt-12 border-t border-white/5 pt-8 text-center">
             <p className="text-xs text-neutral-600">
-              © {new Date().getFullYear()} Canton Capital · Hackathon demo
+              © {new Date().getFullYear()} Canton Capital · Daml + Wallet SDK v1
             </p>
           </div>
         </div>

@@ -108,7 +108,10 @@ export default function FundDetailPage() {
             <h2 className="text-xs font-semibold uppercase tracking-[0.12em] text-neutral-500">
               Proposals
             </h2>
-            <Link href="/proposal/create" className={polkaBtnSm}>
+            <Link
+              href={`/proposal/create?fundId=${encodeURIComponent(fund.id)}`}
+              className={polkaBtnSm}
+            >
               New proposal
             </Link>
           </div>

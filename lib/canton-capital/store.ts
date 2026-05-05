@@ -93,11 +93,27 @@ export function vote(input: {
   return { ...p };
 }
 
-export function executeProposal(proposalId: string): ProposalRow | undefined {
+export type ExecuteFailure =
+  | "not-found"
+  | "already-executed"
+  | "not-passed"
+  | "insufficient-treasury";
+
+export type ExecuteResult =
+  | { ok: true; proposal: ProposalRow; fund: FundRow }
+  | { ok: false; reason: ExecuteFailure };
+
+export function executeProposal(proposalId: string): ExecuteResult {
   const store = globalStore();
   const p = store.proposals.find((x) => x.id === proposalId);
-  if (!p || p.executed) return undefined;
-  if (p.yesVotes <= p.noVotes) return undefined;
+  if (!p) return { ok: false, reason: "not-found" };
+  if (p.executed) return { ok: false, reason: "already-executed" };
+  if (p.yesVotes <= p.noVotes) return { ok: false, reason: "not-passed" };
+  const fund = store.funds.find((f) => f.id === p.fundId);
+  if (!fund) return { ok: false, reason: "not-found" };
+  const treasury = fund.treasuryBalance ?? fund.totalCapital;
+  if (treasury < p.amount) return { ok: false, reason: "insufficient-treasury" };
+  fund.treasuryBalance = treasury - p.amount;
   p.executed = true;
-  return { ...p };
+  return { ok: true, proposal: { ...p }, fund: { ...fund } };
 }
