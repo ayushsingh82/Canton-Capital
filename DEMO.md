@@ -1,4 +1,4 @@
-# Canton Analytics — Demo Guide
+# Canton Capital — Demo Guide
 
 This document is the verified end-to-end walkthrough for Canton Capital. Every step here is exercised against the in-memory store and the live `/api/*` route handlers, and the same Daml templates (`Fund`, `Proposal`) describe the on-ledger model.
 
